@@ -1,0 +1,45 @@
+<html>
+<head>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script>
+$(function(){
+	var servico= "http://botanicapp.com.br/receitas_teste.php";
+	
+	var $xhr= $.get(servico);
+	
+	$xhr.done(function(data){
+		var receitas= JSON.parse(data);
+		$.each(receitas, function(indice, receita){
+			
+			var $ulPreparo = $("<ul />");
+			$.each(receita.ingredientes,function(ind, ing){
+				$ulPreparo.append($("<li/>").text(ing))
+			});
+
+			var $olPreparo = $("<ol />");
+			$.each(receita.preparo,function(ind, prep){
+				$olPreparo.append($("<li/>").text(prep))
+			});
+			
+			$("#lista")
+				.append($("<p/>").text(receita.nome)
+					.addClass("titulo"))
+				.append($("<img/>").attr("src",receita.foto)
+					.addClass("fotos"))
+				.append($("<p/>").text(receita.descricao)
+					.addClass("descricao"))
+				.append($ulPreparo)
+				.append($olPreparo)	
+		});
+	});
+});
+
+</script>
+</head>
+<body>
+	<div id="lista">
+		<div id="ingred"></div>
+	</div>
+	
+</body>
+</html>
